@@ -148,10 +148,10 @@ export default function PathEntry() {
 				</div>
 
 				{/* Keyboard hint */}
-				<div className="flex items-center gap-3 text-neutral-600 text-xs font-mono">
+				{/* <div className="flex items-center gap-3 text-neutral-600 text-xs font-mono">
 					<span className="px-2 py-1 rounded" style={{ background: '#1a1a1a', border: '1px solid #2e2e2e' }}>↵ enter</span>
 					<span>to open</span>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

@@ -194,15 +194,24 @@ export default function Organizer() {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 
-			// Mark all viewed as confirmed
 			const viewed = [...imagesViewed];
+
+			// Build confirmed set including what we are about to confirm.
+			// Cannot rely on imageDataRef since setImageData hasn't flushed yet.
+			const confirmedAfter = new Set(
+				imageDataRef.current
+					.map((img, i) => img.tags.includes('c') ? i : null)
+					.filter(i => i !== null)
+			);
+			viewed.forEach(i => confirmedAfter.add(i));
+
+			// Mark all viewed as confirmed
 			viewed.forEach(imgIdx => {
 				if (!hasTag(imgIdx, 'c')) toggleTag(imgIdx, 'c');
 			});
 
-			// Find next unconfirmed
-			const allImgs = imageDataRef.current;
-			const nextIdx = allImgs.findIndex((img, i) => !img.tags.includes('c'));
+			// Find next unconfirmed using pre-computed set
+			const nextIdx = imageDataRef.current.findIndex((_, i) => !confirmedAfter.has(i));
 
 			if (nextIdx === -1) {
 				showToast('All photos reviewed! Hit Save or Organize.');
