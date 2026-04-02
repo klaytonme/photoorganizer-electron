@@ -181,7 +181,6 @@ ipcMain.handle('organize-images', async (_, imageData) => {
 	for (const image of imageData) {
 		const imagePath = path.join(currentPath, RAW_DIR, image.name);
 		if (!fs.existsSync(imagePath)) continue;
-		if (image.tags.includes('t')) continue; // trashed
 
 		// Copy to each tag folder
 		for (const tag of tags) {
@@ -190,6 +189,8 @@ ipcMain.handle('organize-images', async (_, imageData) => {
 				if (!fs.existsSync(dest)) await fsPromises.copyFile(imagePath, dest);
 			}
 		}
+
+		if (image.tags.includes('t')) continue; // trashed
 
 		// Copy confirmed (c) to All
 		if (image.tags.includes('c')) {
