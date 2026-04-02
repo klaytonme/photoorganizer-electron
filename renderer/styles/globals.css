@@ -53,5 +53,24 @@ body {
 		@apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-mono font-medium;
 		background: rgba(255, 255, 255, 0.08);
 		border: 1px solid rgba(255, 255, 255, 0.12);
+		height: 25px;
+		aspect-ratio: 1/1;
+		overflow: hidden;
+	}
+}
+
+@layer utilities {
+
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Hide scrollbar for IE, Edge and Firefox */
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		/* IE and Edge */
+		scrollbar-width: none;
+		/* Firefox */
 	}
 }

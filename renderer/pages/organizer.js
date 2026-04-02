@@ -305,17 +305,14 @@ export default function Organizer() {
 	// ── Render ────────────────────────────────────────────────────────────────────
 
 	return (
-		<div className="h-screen w-screen flex flex-col overflow-hidden" style={{ background: '#0a0a0a' }}>
+		<div className="h-screen w-screen flex flex-col overflow-hidden select-none" style={{ background: '#0a0a0a' }}>
 
-			{/* Drag region */}
-			<div className="drag-region absolute top-0 left-0 right-0 h-8 z-30" />
-
-			{/* Header */}
-			<div className="no-drag flex items-center gap-3 px-5 py-3 flex-shrink-0 z-20"
+			{/* Header - is the drag region; interactive children use no-drag */}
+			<div className="drag-region flex items-center gap-3 px-5 py-2 flex-shrink-0 z-20"
 				style={{ background: '#0f0f0f', borderBottom: '1px solid #1e1e1e' }}>
 
-				{/* Logo */}
-				<div className="flex items-center gap-2 mr-4">
+				{/* Logo - left-padded to clear macOS traffic lights (~70px) */}
+				<div className="no-drag flex items-center gap-2 mr-4" style={{ paddingLeft: '65px' }}>
 					<div className="w-6 h-6 rounded-md flex items-center justify-center"
 						style={{ background: 'linear-gradient(135deg, #e8d5b0 0%, #a89060 100%)' }}>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -328,17 +325,21 @@ export default function Organizer() {
 				<div className="flex-1" />
 
 				{/* Tag pills */}
-				<div className="flex items-center gap-2">
+				<div className="no-drag flex items-center gap-2">
 					{tags.map(tag => (
-						<div key={tag.id} className="tag-pill" style={{ borderColor: tag.color + '40', color: tag.color }}>
-							<kbd className="font-mono text-[10px]">{tag.key}</kbd>
-							<span>{tag.label}</span>
-						</div>
+						<Tooltip label={tag.label}>
+							<div key={tag.id} className="tag-pill" style={{ borderColor: tag.color + '40', color: tag.color }}>
+								<kbd className="font-mono text-[12px]">{tag.key}</kbd>
+								{/* <span>{tag.label}</span> */}
+							</div>
+						</Tooltip>
 					))}
-					<div className="tag-pill" style={{ borderColor: '#f8717140', color: '#f87171' }}>
-						<kbd className="font-mono text-[10px]">⌫</kbd>
-						<span>Trash</span>
-					</div>
+					<Tooltip label="Trash">
+						<div className="tag-pill" style={{ borderColor: '#f8717140', color: '#f87171' }}>
+							<kbd className="font-mono text-[12px]">⌫</kbd>
+							{/* <span>Trash</span> */}
+						</div>
+					</Tooltip>
 				</div>
 
 				<div className="flex-1" />
@@ -645,6 +646,28 @@ function KbdHint({ keys, label }) {
 				</kbd>
 			))}
 			<span className="text-[11px]">{label}</span>
+		</div>
+	);
+}
+
+function Tooltip({ label, children }) {
+	return (
+		<div className="relative group">
+			{children}
+			<div className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 rounded-md text-xs font-sans whitespace-nowrap
+        opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50"
+				style={{
+					background: '#2a2a2a', border: '1px solid #3a3a3a', color: '#e5e5e5',
+					boxShadow: '0 4px 12px rgba(0,0,0,0.4)'
+				}}>
+				{label}
+				{/* Arrow */}
+				<div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0"
+					style={{
+						borderLeft: '4px solid transparent', borderRight: '4px solid transparent',
+						borderBottom: '4px solid #3a3a3a'
+					}} />
+			</div>
 		</div>
 	);
 }
