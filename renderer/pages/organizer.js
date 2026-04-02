@@ -388,7 +388,7 @@ export default function Organizer() {
 			{/* Thumbnail strip */}
 			<div className="flex-shrink-0 px-3 pb-3 pt-2">
 				<div ref={thumbRowRef}
-					className="flex items-center gap-2 overflow-x-auto overflow-y-hidden"
+					className="flex items-center gap-2 overflow-x-auto overflow-y-hidden no-scrollbar"
 					style={{ height: '90px', background: '#0f0f0f', borderRadius: '12px', padding: '8px', border: '1px solid #1e1e1e' }}>
 					{imageData.map((img, idx) => (
 						<ThumbCard
