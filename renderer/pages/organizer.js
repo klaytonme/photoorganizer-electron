@@ -253,7 +253,7 @@ export default function Organizer() {
 			if (rect && e.clientX > rect.left && e.clientX < rect.right && e.clientY > rect.top && e.clientY < rect.bottom) return;
 			setZoom(prev => {
 				const next = prev + e.deltaY * -0.001;
-				return Math.max(1, Math.min(4, next));
+				return Math.max(0.5, Math.min(4, next));
 			});
 		}
 		window.addEventListener('mousemove', onMove);
@@ -514,8 +514,20 @@ function PhotoImage({ img, zoom, mousePos }) {
 			image.style.width = 'auto';
 		}
 
-		image.style.top = `-${(image.clientHeight - container.clientHeight) / 2 * mousePos.y}px`;
-		image.style.left = `-${(image.clientWidth - container.clientWidth) / 2 * mousePos.x}px`;
+		// Center the image, then offset by mouse position (only has effect when zoomed in)
+		const overflowX = Math.min(0, container.clientWidth - image.clientWidth);
+		const overflowY = Math.min(0, container.clientHeight - image.clientHeight);
+		const insetX = Math.max(0, (container.clientWidth - image.clientWidth) / 2);
+		const insetY = Math.max(0, (container.clientHeight - image.clientHeight) / 2);
+		const offsetX = insetX + overflowX * (mousePos.x / 2);
+		const offsetY = insetY + overflowY * (mousePos.y / 2);
+
+		// console.log(overflowX, overflowY, insetX, insetY);
+		// console.log(insetY + overflowY * (mousePos.y / 2))
+
+		image.style.left = `${offsetX}px`;
+		image.style.top = `${offsetY}px`;
+		// console.log(image.style.top);
 	});
 
 	return (
@@ -583,9 +595,10 @@ function ThumbCard({ img, idx, tags, isViewed, onClick }) {
 
 			{img.tags.includes('t') && (
 				<div className="absolute inset-0 flex items-center justify-center"
-					style={{ background: 'rgba(248,113,113,0.25)' }}>
-					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2.5" strokeLinecap="round">
-						<line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+					style={{ background: 'rgba(248,113,113,0.5)' }}>
+					<svg width="16" height="16" viewBox="0 0 30 30" fill="none" strokeLinecap="round">
+						<line x1="25" y1="5" x2="5" y2="25" strokeWidth="8" stroke="#ffffff" /><line x1="5" y1="5" x2="25" y2="25" strokeWidth="8" stroke="#ffffff" />
+						<line x1="25" y1="5" x2="5" y2="25" strokeWidth="5" stroke="#ff4444" /><line x1="5" y1="5" x2="25" y2="25" strokeWidth="5" stroke="#ff4444" />
 					</svg>
 				</div>
 			)}
