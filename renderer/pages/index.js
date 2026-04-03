@@ -70,7 +70,7 @@ export default function PathEntry() {
 							<polyline points="21 15 16 10 5 21" />
 						</svg>
 					</div>
-					<h1 className="font-display text-3xl text-accent tracking-tight">Sorter</h1>
+					<h1 className="text-3xl text-accent tracking-tight">Sorter</h1>
 					<p className="font-sans text-sm text-neutral-500 tracking-wide">keyboard-driven photo organization</p>
 				</div>
 

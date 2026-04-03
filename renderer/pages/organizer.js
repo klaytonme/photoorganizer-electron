@@ -319,7 +319,7 @@ export default function Organizer() {
 							<rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
 						</svg>
 					</div>
-					<span className="font-display text-sm text-accent">Sorter</span>
+					<span className="text-sm text-accent">Sorter</span>
 				</div>
 
 				<div className="flex-1" />
